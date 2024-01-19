@@ -32,7 +32,7 @@ const Testimonials = () => {
     
           {/* Testimonials Section */}
           <div className="w-full md:w-1/2 p-6 md:p-10">
-            <div className="border border-yellow-500 rounded-lg text-sm  h-78 md:h-80 overflow-hidden relative">
+            <div className="border border-yellow-500 rounded-lg text-sm h-76 md:h-80 overflow-hidden relative">
               {/* Testimonial Display */}
               {testimonialsData.map((testimonial) => (
                 <div
@@ -48,7 +48,7 @@ const Testimonials = () => {
                 </div>
               ))}
     
-              <div className="relative flex justify-center sm:pb-2 mt-[17rem] md:mt-[14rem]">
+              <div className="relative flex justify-center sm:py-2 mt-[12rem] md:mt-[14rem]">
                 {testimonialsData.map((testimonial) => (
                   <button
                     key={testimonial.id}
