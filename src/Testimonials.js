@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const testimonialsData = [
   { id: 1, text: "Bathed in dawn's hues, nature's silent symphony whispers tales of growth, painting a tranquil canvas that tells the story of the world's tender rebirth.", name: "AA" },
@@ -13,59 +13,74 @@ const testimonialsData = [
 ];
 
 const Testimonials = () => {
-    const [currentTestimonial, setCurrentTestimonial] = useState(1);
-  
-    const handleSelectTestimonial = (id) => {
+  const [currentTestimonial, setCurrentTestimonial] = useState(1);
+
+  const handleSelectTestimonial = (id) => {
+    const currentId = currentTestimonial;
+    const difference = id - currentId;
+
+    if (difference > 0) {
+      // Moving to the right, directly set the testimonial
       setCurrentTestimonial(id);
-    };
-  
-    return (
-        <div className="flex flex-col  md:flex-row justify-center items-center h-screen bg-gradient-to-br from-blue-300 to-indigo-600">
-          {/* Image Section */}
-          <div className="w-full md:w-1/2 p-6 md:p-10">
-            <img
-              src="https://media.istockphoto.com/id/1461631485/photo/group-of-young-students-checking-exam-results-or-waiting-for-project-approval-on-laptop-at.jpg?s=1024x1024&w=is&k=20&c=Q3JJ_BHFwSkIHIaZ0AOE_Me2E4QS-BUEgEcNuJKgcrI="
-              alt="Student sitting around studying"
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
-    
-          {/* Testimonials Section */}
-          <div className="w-full md:w-1/2 p-6 md:p-10">
-            <div className="border border-yellow-500 rounded-lg text-sm h-76 md:h-80 overflow-hidden relative">
-              {/* Testimonial Display */}
-              {testimonialsData.map((testimonial) => (
-                <div
-                  key={testimonial.id}
-                  className={`absolute top-0 left-0 w-full h-full transition-transform transform ${
-                    currentTestimonial === testimonial.id ? 'translate-x-0' : 'translate-x-full'
-                  }`}
-                >
-                  <p className="text-white text-lg p-4">{testimonial.text}</p>
-                  <p className="text-gray-300 text-sm sm:pt-0 pl-4">
-                    - {testimonial.name}
-                  </p>
-                </div>
-              ))}
-    
-              <div className="relative flex justify-center sm:py-2 mt-[12rem] md:mt-[14rem]">
-                {testimonialsData.map((testimonial) => (
-                  <button
-                    key={testimonial.id}
-                    onClick={() => handleSelectTestimonial(testimonial.id)}
-                    className={`bg-yellow-300 text-blue-500 rounded-full w-6 h-6 mx-2 focus:outline-none ${
-                      currentTestimonial === testimonial.id && 'bg-yellow-500'
-                    }`}
-                  >
-                    &bull;
-                  </button>
-                ))}
-              </div>
+    } else {
+      // Moving to the left, go through the in-between sequences
+      for (let i = 0; i < Math.abs(difference); i++) {
+        setTimeout(() => {
+          setCurrentTestimonial((prevTestimonial) => (prevTestimonial - 1 + testimonialsData.length) % testimonialsData.length);
+        }, i * 300); // Adjust the delay as needed
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Cleanup effect on component unmount
+    return () => clearTimeout();
+  }, []);
+
+  return (
+    <div className="flex flex-col md:flex-row justify-center items-center h-screen bg-gradient-to-br from-blue-300 to-indigo-600">
+      {/* Image Section */}
+      <div className="w-full md:w-1/2 p-6 md:p-10">
+        <img
+          src="https://media.istockphoto.com/id/1461631485/photo/group-of-young-students-checking-exam-results-or-waiting-for-project-approval-on-laptop-at.jpg?s=1024x1024&w=is&k=20&c=Q3JJ_BHFwSkIHIaZ0AOE_Me2E4QS-BUEgEcNuJKgcrI="
+          alt="Student sitting around studying"
+          className="w-full h-auto rounded-lg"
+        />
+      </div>
+
+      {/* Testimonials Section */}
+      <div className="w-full md:w-1/2 p-6 md:p-10">
+        <div className="border border-yellow-500 rounded-lg text-sm h-76 md:h-80 overflow-hidden relative">
+          {/* Testimonial Display */}
+          {testimonialsData.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className={`absolute top-0 left-0 w-full h-full transition-transform transform ${
+                currentTestimonial === testimonial.id ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <p className="text-white text-lg p-4">{testimonial.text}</p>
+              <p className="text-gray-300 text-sm sm:pt-0 pl-4">- {testimonial.name}</p>
             </div>
+          ))}
+
+          <div className="relative flex justify-center sm:py-2 mt-[12rem] md:mt-[14rem]">
+            {testimonialsData.map((testimonial) => (
+              <button
+                key={testimonial.id}
+                onClick={() => handleSelectTestimonial(testimonial.id)}
+                className={`bg-yellow-300 text-blue-500 rounded-full w-6 h-6 mx-2 focus:outline-none ${
+                  currentTestimonial === testimonial.id && "bg-yellow-500"
+                }`}
+              >
+                &bull;
+              </button>
+            ))}
           </div>
         </div>
-      );
-    };
-    
-    export default Testimonials;
-    
+      </div>
+    </div>
+  );
+};
+
+export default Testimonials;
