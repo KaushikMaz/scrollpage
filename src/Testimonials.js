@@ -27,7 +27,7 @@ const Testimonials = () => {
       for (let i = 0; i < Math.abs(difference); i++) {
         setTimeout(() => {
           setCurrentTestimonial((prevTestimonial) => (prevTestimonial - 1 + testimonialsData.length) % testimonialsData.length);
-        }, i * 300); // Adjust the delay as needed
+        }, i * 130); // Adjust the delay as needed
       }
     }
   };
@@ -59,8 +59,8 @@ const Testimonials = () => {
                 currentTestimonial === testimonial.id ? "translate-x-0" : "translate-x-full"
               }`}
             >
-              <p className="text-white text-lg p-4">{testimonial.text}</p>
-              <p className="text-gray-300 text-sm sm:pt-0 pl-4">- {testimonial.name}</p>
+              <p className="text-white font-semibold text-lg p-4">{testimonial.text}</p>
+              <p className="text-gray-200 font-semibold text-sm sm:pt-0 pl-4">- {testimonial.name}</p>
             </div>
           ))}
 
